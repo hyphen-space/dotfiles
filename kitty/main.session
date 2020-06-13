@@ -1,0 +1,8 @@
+# layout
+layout tall
+
+# set working directory
+cd ~
+
+# start abduco session 
+launch abduco -A main dvtm-status
