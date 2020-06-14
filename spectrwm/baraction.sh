@@ -19,7 +19,7 @@ bat() {
 }
 
 dte() {
-  dte=$(date +"%A, %B %d")
+  dte=$(date +"%a %B %d")
   echo -e "+@fg=1;date+@fg=0; $dte "
 }
 
