@@ -1,11 +1,16 @@
 #!/bin/bash
 
-BOLD='\033[1m'
-BB='\033[00m'
+song() {
+    song=$(ncmpcpp --current-song)
+    if [ -n "$song" ]
+    then
+        echo -e "+@fg=1;now playing+@fg=0; $song "
+    fi
+}
 
 vol(){
     vol=$(amixer -D pulse get Master | awk -F 'Left:|[][]' 'BEGIN {RS=""}{ print $3 }')
-	echo -e "+@fg=1;vol+@fg=0; $vol% "
+	echo -e "+@fg=1;vol+@fg=0; $vol "
 }
 
 bat() {
@@ -19,12 +24,12 @@ dte() {
 }
 
 tie() {
-  tme=$(date +"%I:%M %p")
+  tme=$(date +"%I:%M%P")
   echo -e "+@fg=1;time+@fg=0; $tme "
 }
 
 while :; do
-    echo "$(vol) $(bat) $(tie) $(dte)"
+    echo "$(song) $(vol) $(bat) $(tie) $(dte)"
 	sleep 2
 done
 
