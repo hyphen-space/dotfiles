@@ -1,7 +1,7 @@
 #!/bin/bash
 
 song() {
-    song=$(ncmpcpp --current-song)
+    song=$(ncmpcpp --current-song='%a - %t')
     if [ -n "$song" ]
     then
         echo -e "+@fg=1;now playing+@fg=0; $song "
