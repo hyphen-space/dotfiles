@@ -9,8 +9,15 @@ song() {
 }
 
 vol(){
-    vol=$(amixer -D pulse get Master | awk -F 'Left:|[][]' 'BEGIN {RS=""}{ print $3 }')
-	echo -e "+@fg=1;vol+@fg=0; $vol "
+	vol=$(pulsemixer --get-volume | cut -d ' ' -f 1)
+	mute=$(pulsemixer --get-mute)
+	if [ $mute -eq 0 ]; then
+		echo -e "+@fg=1;vol+@fg=0; $vol% "
+	elif [ $mute -eq 1 ]; then
+		echo -e "+@fg=1;vol+@fg=0; [Mute] "
+	else
+		echo -e "+@fg=1;vol+@fg=0; ??? "
+	fi
 }
 
 bat() {
