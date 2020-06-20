@@ -38,7 +38,11 @@ bat() {
     BAT_STATE=$(cat /sys/class/power_supply/BAT0/status)
 
     i=$((BAT_PER/20))
-    BAT_ICON=${BATTERY_CHARGING[$i]}
+    if [ $BAT_STATE = 'Full' ]; then
+        BAT_ICON=${BATTERY_CHARGING[4]}
+    else
+        BAT_ICON=${BATTERY_CHARGING[$i]}
+    fi
 
 	echo -e "$BAT_ICON $BAT_PER% "
 }
