@@ -27,10 +27,10 @@ vol(){
         elif [ $VOL_INT -ge 60 ]; then
             VOL_ICON=${VOL_ICONS[2]}
         fi
-	    VOL_INT=$VOL_INT%
+	    VOL_STR=$VOL_INT%
     fi
 
-    echo -e "$VOL_ICON $VOL_INT "
+    echo -e "$VOL_ICON $VOL_STR "
 }
 
 bat() {
