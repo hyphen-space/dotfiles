@@ -6,6 +6,15 @@ TIME_ICON=
 CAL_ICON=
 VOL_ICONS=(    )
 MUSIC_ICON=
+WIFI_ICON=
+
+
+wifi() {
+    SSID=$(iw dev wlp2s0 link | grep SSID | cut -d ' ' -f 2)
+    if [ -n "$SSID" ]; then
+        echo -e "$WIFI_ICON $SSID"
+    fi
+}
 
 song() {
     song=$(ncmpcpp --current-song='%a - %t')
@@ -58,7 +67,7 @@ tie() {
 }
 
 while :; do
-    echo "   +@bg=2;  $(song) $(vol) +@bg=0;   +@bg=3;  $(bat) +@bg=0;   +@bg=4;  $(tie) +@bg=0;   +@bg=5;  $(dte) "
+    echo "+@bg=0; +@bg=1;+2<$(wifi) +<+@bg=0;+3<+@bg=2;+2<$(song) $(vol) +@bg=0;+<3+@bg=3;+2<$(bat) +@bg=0;+<3+@bg=4;+2<$(tie) +@bg=0;+<3+@bg=5;+2<$(dte) "
 	sleep 1
 done
 
