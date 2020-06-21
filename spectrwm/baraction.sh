@@ -1,33 +1,34 @@
 #!/bin/bash
 
-# battery icons
-BATTERY_CHARGING=(           )
+# ICONS
+
+BATTERY_ICONS=(           )
+BOLT_ICON=
+PLUG_ICON=
 TIME_ICON=
 CAL_ICON=
 VOL_ICONS=(    )
 MUSIC_ICON=
 WIFI_ICON=
 
+# MODULES
 
 wifi() {
     SSID=$(iw dev wlp2s0 link | grep SSID | cut -d ' ' -f 2)
+
     if [ -n "$SSID" ]; then
         echo -e "$WIFI_ICON $SSID"
+    else
+        echo -e "$WIFI_ICON Not Connected"
     fi
 }
 
-song() {
-    song=$(ncmpcpp --current-song='%a - %t')
-    if [ -n "$song" ]
-    then
-        echo -e "$MUSIC_ICON $song "
-    fi
-}
+sound(){
+	VOL_INT=$(pamixer --get-volume | cut -d ' ' -f 1)
+	VOL_MUTE=$(pamixer --get-mute)
+    NOW_PLAYING=$(ncmpcpp --current-song='%a - %t')
 
-vol(){
-	VOL_INT=$(pulsemixer --get-volume | cut -d ' ' -f 1)
-	VOL_MUTE=$(pulsemixer --get-mute)
-	if [ $VOL_MUTE -eq 1 ]; then
+	if [ $VOL_MUTE = true ]; then
         VOL_ICON=${VOL_ICONS[0]}
         VOL_STR=''
     else
@@ -39,7 +40,11 @@ vol(){
 	    VOL_STR=$VOL_INT%
     fi
 
-    echo -e "$VOL_ICON $VOL_STR "
+    if [ -n "$NOW_PLAYING" ]; then
+        echo -e "$MUSIC_ICON $NOW_PLAYING  $VOL_ICON $VOL_STR "
+    else
+        echo -e "$VOL_ICON $VOL_STR "
+    fi
 }
 
 bat() {
@@ -48,9 +53,15 @@ bat() {
 
     i=$((BAT_PER/20))
     if [ $BAT_STATE = 'Full' ]; then
-        BAT_ICON=${BATTERY_CHARGING[4]}
+        BAT_ICON=$BOLT_ICON
+    elif [ $BAT_STATE = 'Charging' ]; then
+        BAT_ICON=$PLUG_ICON
     else
-        BAT_ICON=${BATTERY_CHARGING[$i]}
+        if [ $BAT_PER -eq 100 ]; then
+            BAT_ICON=${BATTERY_ICONS[4]}
+        else
+            BAT_ICON=${BATTERY_ICONS[$i]}
+        fi
     fi
 
 	echo -e "$BAT_ICON $BAT_PER% "
@@ -66,8 +77,10 @@ tie() {
   echo -e "$TIME_ICON $tme "
 }
 
+# OUTPUT
+
 while :; do
-    echo "+@bg=0; +@bg=1;+2<$(wifi) +<+@bg=0;+3<+@bg=2;+2<$(song) $(vol) +@bg=0;+<3+@bg=3;+2<$(bat) +@bg=0;+<3+@bg=4;+2<$(tie) +@bg=0;+<3+@bg=5;+2<$(dte) "
+    echo "+@bg=0; +@bg=1;+2<$(wifi) +<+@bg=0;+3<+@bg=2;+2<$(sound) +@bg=0;+3<+@bg=3;+2<$(bat) +@bg=0;+3<+@bg=4;+2<$(tie) +@bg=0;+3<+@bg=5;+2<$(dte) "
 	sleep 1
 done
 
