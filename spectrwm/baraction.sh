@@ -19,7 +19,7 @@ wifi() {
     if [ -n "$SSID" ]; then
         echo -e "$WIFI_ICON $SSID"
     else
-        echo -e "$WIFI_ICON Not Connected"
+        echo -e " Not Connected"
     fi
 }
 
@@ -30,7 +30,7 @@ sound(){
 
 	if [ $VOL_MUTE = true ]; then
         VOL_ICON=${VOL_ICONS[0]}
-        VOL_STR=''
+        VOL_STR='[Muted]'
     else
         if [ $VOL_INT -lt 60 ]; then
             VOL_ICON=${VOL_ICONS[1]}
@@ -80,7 +80,7 @@ tie() {
 # OUTPUT
 
 while :; do
-    echo "+@bg=0; +@bg=1;+2<$(wifi) +<+@bg=0;+3<+@bg=2;+2<$(sound) +@bg=0;+3<+@bg=3;+2<$(bat) +@bg=0;+3<+@bg=4;+2<$(tie) +@bg=0;+3<+@bg=5;+2<$(dte) "
+    echo "+@bg=0; +@bg=1;+2<$(wifi) +<+@bg=0;+3<+@bg=2;+2<$(sound) +@bg=0;+3<+@bg=3;+2<$(bat) +@bg=0;+3<+@bg=4;+2<$(dte) +@bg=0;+3<+@bg=5;+2<$(tie) "
 	sleep 1
 done
 
