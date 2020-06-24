@@ -41,7 +41,7 @@ sound(){
     fi
 
     if [ -n "$NOW_PLAYING" ]; then
-        echo -e "$MUSIC_ICON $NOW_PLAYING  $VOL_ICON $VOL_STR "
+        echo -e "$MUSIC_ICON ${NOW_PLAYING:0:40}  $VOL_ICON $VOL_STR "
     else
         echo -e "$VOL_ICON $VOL_STR "
     fi
