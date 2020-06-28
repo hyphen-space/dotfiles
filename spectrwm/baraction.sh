@@ -7,9 +7,10 @@ BOLT_ICON=
 PLUG_ICON=
 TIME_ICON=
 CAL_ICON=
-VOL_ICONS=(    )
+VOL_ICONS=(      )
 MUSIC_ICON=
 WIFI_ICON=
+EXCLAMATION_ICON=
 
 # MODULES
 
@@ -19,7 +20,7 @@ wifi() {
     if [ -n "$SSID" ]; then
         echo -e "$WIFI_ICON $SSID"
     else
-        echo -e " Not Connected"
+        echo -e "$EXCLAMATION_ICON Not Connected"
     fi
 }
 
@@ -32,10 +33,12 @@ sound(){
         VOL_ICON=${VOL_ICONS[0]}
         VOL_STR='[Muted]'
     else
-        if [ $VOL_INT -lt 60 ]; then
+        if [ $VOL_INT -le 30 ]; then
             VOL_ICON=${VOL_ICONS[1]}
-        elif [ $VOL_INT -ge 60 ]; then
+        elif [ $VOL_INT -le 60 ]; then
             VOL_ICON=${VOL_ICONS[2]}
+        elif [ $VOL_INT -gt 60 ]; then
+            VOL_ICON=${VOL_ICONS[3]}
         fi
 	    VOL_STR=$VOL_INT%
     fi
@@ -79,8 +82,8 @@ tie() {
 
 # OUTPUT
 
-while :; do
+while true; do
     echo "+@bg=0; +@bg=1;+2<$(wifi) +<+@bg=0;+3<+@bg=2;+2<$(sound) +@bg=0;+3<+@bg=3;+2<$(bat) +@bg=0;+3<+@bg=4;+2<$(dte) +@bg=0;+3<+@bg=5;+2<$(tie) "
-	sleep 1
+	sleep 0.1
 done
 
