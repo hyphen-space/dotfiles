@@ -18,9 +18,9 @@ wifi() {
     SSID=$(iw dev wlp2s0 link | grep SSID | cut -d ' ' -f 2)
 
     if [ -n "$SSID" ]; then
-        echo -e "$WIFI_ICON $SSID"
+        echo "$WIFI_ICON $SSID"
     else
-        echo -e "$EXCLAMATION_ICON Not Connected"
+        echo "$EXCLAMATION_ICON Not Connected"
     fi
 }
 
@@ -44,9 +44,9 @@ sound(){
     fi
 
     if [ -n "$NOW_PLAYING" ]; then
-        echo -e "$MUSIC_ICON ${NOW_PLAYING:0:40}  $VOL_ICON $VOL_STR "
+        echo "$MUSIC_ICON ${NOW_PLAYING:0:40}  $VOL_ICON $VOL_STR "
     else
-        echo -e "$VOL_ICON $VOL_STR "
+        echo "$VOL_ICON $VOL_STR "
     fi
 }
 
@@ -67,23 +67,23 @@ bat() {
         fi
     fi
 
-	echo -e "$BAT_ICON $BAT_PER% "
+	echo "$BAT_ICON $BAT_PER% "
 }
 
 dte() {
   dte=$(date +"%a %B %d")
-  echo -e "$CAL_ICON $dte "
+  echo "$CAL_ICON $dte "
 }
 
 tie() {
   tme=$(date +"%I:%M%P")
-  echo -e "$TIME_ICON $tme "
+  echo "$TIME_ICON $tme "
 }
 
 # OUTPUT
 
 while true; do
     echo "+@bg=0; +@bg=1;+2<$(wifi) +<+@bg=0;+3<+@bg=2;+2<$(sound) +@bg=0;+3<+@bg=3;+2<$(bat) +@bg=0;+3<+@bg=4;+2<$(dte) +@bg=0;+3<+@bg=5;+2<$(tie) "
-	sleep 0.1
+	sleep 1
 done
 
